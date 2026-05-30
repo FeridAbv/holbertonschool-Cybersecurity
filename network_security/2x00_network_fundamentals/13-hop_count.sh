@@ -1,2 +1,2 @@
 #!/bin/bash
-ip route | grep default | awk '{print $3}'
+traceroute -m 1 8.8.8.8 2>/dev/null | awk 'NR==2 {print $2}'
