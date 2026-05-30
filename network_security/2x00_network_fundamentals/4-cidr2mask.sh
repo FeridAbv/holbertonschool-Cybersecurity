@@ -1,2 +1,20 @@
 #!/bin/bash
-for i in 24 16 8 0; do printf "%d." $((($1-i)>=8?255:(($1-i)<=0?0:256-(2**(8-($1-i)))))); done | sed 's/\.$//'; echo
+
+cidr=$1
+
+for i in 1 2 3 4
+do
+    if [ $cidr -ge 8 ]; then
+        octet=255
+        cidr=$((cidr-8))
+    else
+        octet=$((256-2**(8-cidr)))
+        [ $cidr -eq 0 ] && octet=0
+        cidr=0
+    fi
+
+    printf "%d" "$octet"
+    [ $i -lt 4 ] && printf "."
+done
+
+echo
